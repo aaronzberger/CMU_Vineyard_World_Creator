@@ -13,27 +13,27 @@ gazebo_left_offset = 1
 # Gather user inputs
 parser = argparse.ArgumentParser(description='Gazebo Vineyard World Creator')
 parser.add_argument(
-    '--num_rows', type=int, default=None,
+    '--num_rows', '-n', type=int, default=None,
     help='number of rows to use. Default: randomize in the range [2:10]')
 parser.add_argument(
-    '-widths', nargs='+', default=None, help='list of row widths (floats).' +
+    '-widths', '-w', nargs='+', default=None, help='list of row widths (floats).' +
     ' Simply list the distances between each row (left to right)')
 parser.add_argument(
-    '--row_width', nargs='+', default=None,
+    '--row_width', '-rw', nargs='+', default=None,
     help='distance between each row (float) or range in which to randomize ' +
     '(float float) Default: randomize in range [2:5]')
 parser.add_argument(
-    '--row_length', type=float, default=20,
+    '--row_length', '-rl', type=float, default=20,
     help='length of the rows in meters (just a single value)')
 parser.add_argument(
-    '--filename', type=str, default='output.world',
+    '--filename', '-f', type=str, default='output.world',
     help='full path to save the file in')
 parser.add_argument(
-    '--noise_pos', type=float, default=0.0,
+    '--noise_pos', '-np', type=float, default=0.0,
     help='standard deviation of the Gaussian noise to add to the positions ' +
     'of the vines (0.1 is a good place to start)')
 parser.add_argument(
-    '--noise_ang', type=float, default=0.0,
+    '--noise_ang', '-na', type=float, default=0.0,
     help='standard deviation of the Gaussian noise to add to the angles ' +
     'of the vines (0.1 is a good place to start)')
 
@@ -54,8 +54,8 @@ else:
         # Default specified in argparse
         args.row_width = [2.0, 5.0]
     # Individual row widths were not given, so we now generate those values
-    if not len(args.row_width) == 1 or len(args.row_width) == 2:
-        raise ValueError('--row_width argument must be either 1 or 2 integers')
+    if not (len(args.row_width) == 1 or len(args.row_width) == 2):
+        raise ValueError('--row_width argument must be either 1 or 2 floats')
     if len(args.row_width) == 2:
         args.widths = np.random.uniform(
             low=float(args.row_width[0]), high=float(args.row_width[1]),
